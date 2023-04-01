@@ -190,7 +190,7 @@ export default function Dashboard() {
               <img
                 className="h-8 w-auto"
                 src="./Group.png"
-                alt=""
+                alt="   "
               />
             </div>
             <nav className="mt-5 flex flex-1 flex-col divide-y divide-blue-800 overflow-y-auto" aria-label="Sidebar">
