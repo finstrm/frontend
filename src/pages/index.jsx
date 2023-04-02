@@ -5,7 +5,7 @@ import * as AccountService from '@/service/AccountService'
 import * as CustomerService from "@/service/CustomerService";
 import {Address} from "@/model/Address";
 import {Customer} from "@/model/Customer";
-import {Account} from "@/model/Account";
+import {account} from "@/model/Account";
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 import {doc, setDoc} from "firebase/firestore";
@@ -29,8 +29,9 @@ export default function Home() {
 
     CustomerService.createCustomer(customer).then((result) => {
         let custId = result.objectCreated._id
+        console.log(result.objectCreated._id)
 
-        AccountService.createAccount(new Account("Checking", "Tests", 1000, 100000, custId)).then((result) => {
+        AccountService.createAccount(new account("Checking", "Tests", 1000, 100000, custId)).then((result) => {
             console.log(result);
             let accountId = result.objectCreated._id;
             DepositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
