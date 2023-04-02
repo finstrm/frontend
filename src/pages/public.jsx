@@ -22,7 +22,7 @@ import {
   import {account} from "@/model/Account";
   import * as DepositService from '@/service/depositService';
   import { deposit } from '@/model/Deposit';
-  import { useHistory } from 'react-router-dom';
+  import { useQueryState } from 'next-usequerystate';
   
   import {app} from '@/config/firebaseConfig';
   import {
@@ -37,38 +37,6 @@ import {
   
   const db = getFirestore(app);
   const auth = getAuth();
-  
-  function useStateParams(
-    initialState,
-    paramsName,
-    serialize,
-    deserialize 
-  ) {
-    const history = useHistory();
-    const search = new URLSearchParams(history.location.search);
-  
-    const existingValue = search.get(paramsName);
-    const [state, setState] = useState<T>(
-      existingValue ? deserialize(existingValue) : initialState
-    );
-  
-    useEffect(() => {
-      // Updates state when user navigates backwards or forwards in browser history
-      if (existingValue && deserialize(existingValue) !== state) {
-        setState(deserialize(existingValue));
-      }
-    }, [existingValue]);
-  
-    const onChange = (s) => {
-      setState(s);
-      const searchParams = new URLSearchParams(history.location.search);
-      searchParams.set(paramsName, serialize(s));
-      const pathname = history.location.pathname;
-      history.push({ pathname, search: searchParams.toString() });
-    };
-  
-    return [state, onChange];
-  }
 
   const navigation = [
     {name: 'Home', href: '#', icon: HomeIcon, current: true},
@@ -82,10 +50,6 @@ import {
     {name: 'Settings', href: '#', icon: CogIcon},
     {name: 'Help', href: '#', icon: QuestionMarkCircleIcon},
     {name: 'Privacy', href: '#', icon: ShieldCheckIcon},
-  ]
-  const cards = [
-    {name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45'},
-    // More items...
   ]
   const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -136,20 +100,39 @@ import {
     // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 10000.00, "Test data")).then((result) => {
     //     console.log(result);
     // })
-  
-    const [transactions, setTransactions] = useState([])
 
-    const [custId, setCustId] = useStateParams("", "custId", (s) => s, (s) => s);
-  
+    const [transactions, setTransactions] = useState([])
+    const [customers, setCustomers] = useState([])
+    const [accounts, setAccounts] = useState([])
+
+    const [custId, setCustId] = useQueryState('custId')
+    const [accountId, setAccountId] = useQueryState('accountId')
+
     useEffect(()=> {
-        CustomerService.getAllCustomers.then((result) => {
-            console.log(result)
-            setTransactions(result)
+      if(custId) {
+        AccountService.getAccountByCustomer(custId).then((result) => {
+          console.log(result)
+          setAccounts(result)
         })
-        // DepositService.getAccountDepositByCustomer("64291bb29683f20dd51877a7").then((result) => {
-        //     setTransactions(result)
-        //     console.log(result)
-        // })
+      }
+      // DepositService.getAccountDepositByCustomer("64291bb29683f20dd51877a7").then((result) => {
+      //     setTransactions(result)
+      //     console.log(result)
+      // })
+    }, [])
+
+    useEffect(()=> {
+      if(accountId) {
+        DepositService.getAccountDeposit(accountId).then((result) => {
+          setTransactions(result)
+        })
+      }
+    }, [])
+
+    useEffect(()=> {
+      CustomerService.getAllCustomers().then((result) => {
+        setCustomers(result)
+      })
     }, [])
   
   
@@ -335,7 +318,7 @@ import {
                                   alt=""
                                 />
                                 <h1 className="ml-3 text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
-                                  Good morning, Pranav Ramesh
+                                  Good morning
                                 </h1>
                               </div>
                               <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -383,21 +366,24 @@ import {
                 </div>
                 <div className="mt-8">
                   <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                      <input type="text" id='custId' />
+                      <button className="pad1x" onClick={()=> {setCustId(document.getElementById("custId").value).then(()=>window.location.reload()) }}>Search</button>
                     <h2 className="text-lg font-medium leading-6 text-gray-900">AT A GLANCE</h2>
                     <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                       {/* Card */}
-                      {cards.map((card) => (
-                        <div key={card.name} className="overflow-hidden rounded-lg bg-slate-200 shadow">
+                      {accounts.map((card) => (
+                        <div key={card.nickname} className="overflow-hidden rounded-lg bg-slate-200 shadow" onClick={() => {setAccountId(card._id).then(window.location.reload)}}>
                           <div className="p-5">
                             <div className="flex items-center">
                               <div className="flex-shrink-0">
-                                <card.icon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                                <CreditCardIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
                               </div>
                               <div className="ml-5 w-0 flex-1">
                                 <dl>
-                                  <dt className="truncate text-sm  uppercase tracking-tight text-gray-500">{card.name}</dt>
+                                  <dt className="truncate text-sm  uppercase tracking-tight text-gray-500">{card.nickname}</dt>
                                   <dd>
-                                    <div className="text-lg font-medium text-gray-900">{card.amount}</div>
+                                    <div className="text-lg font-medium text-gray-900">{card.balance}</div>
+                                    <div className="text-lg font-small text-gray-900">{card._id}</div>
                                   </dd>
                                 </dl>
                               </div>

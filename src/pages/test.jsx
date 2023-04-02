@@ -100,7 +100,13 @@ export default function Dashboard() {
     //     })
     // });
 
-    // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 10000.00, "Test data")).then((result) => {
+    // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 193640.00, "Pay the dog")).then((result) => {
+    //     console.log(result);
+    // })
+    // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 85248.00, "The Bub")).then((result) => {
+    //     console.log(result);
+    // })
+    // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 9654.00, "Finstream payment")).then((result) => {
     //     console.log(result);
     // })
 
