@@ -16,7 +16,7 @@ export async function getAllAccounts(type) {
 }
 
 export async function getAccountByCustomer(customerId) {
-    const response = await fetch(baseUrl + `${customerId}/accounts?key=${key}`);
+    const response = await fetch(baseUrl + `customers/${customerId}/accounts?key=${key}`);
     const data = await response.json();
 
     return data;

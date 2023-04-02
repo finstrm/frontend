@@ -12,7 +12,7 @@ import {
     UserGroupIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline'
-import {Fragment, useState} from 'react'
+import {Fragment, useState, useEffect } from 'react'
 import {Dialog, Menu, Transition} from '@headlessui/react'
 import {doc, getFirestore, setDoc} from "firebase/firestore";
 import * as AccountService from '@/service/AccountService'
@@ -54,19 +54,6 @@ const cards = [
     {name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45'},
     // More items...
 ]
-const transactions = [
-    {
-        id: 1,
-        name: 'Payment to Molly Sanders',
-        href: '#',
-        amount: '$20,000',
-        currency: 'USD',
-        status: 'success',
-        date: 'July 11, 2020',
-        datetime: '2020-07-11',
-    },
-    // More transactions...
-]
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -98,20 +85,33 @@ export default function Dashboard() {
         }
     });
 
-    let customer = new Customer("Joe", "Banker", new Address("123 Main St", "12345", "New York", "NY", "15501"));
+    // let customer = new Customer("Joe", "Banker", new Address("123 Main St", "12345", "New York", "NY", "15501"));
 
-    CustomerService.createCustomer(customer).then((result) => {
-        let custId = result.objectCreated._id
-        console.log(custId, result.objectCreated._id)
+    // CustomerService.createCustomer(customer).then((result) => {
+    //     let custId = result.objectCreated._id
+    //     console.log(custId, result.objectCreated._id)
 
-        AccountService.createAccount(new account("Checking", "Tests", 1000, 100000), custId).then((result) => {
-            console.log(result);
-            let accountId = result.objectCreated._id;
-            DepositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
-                console.log(result);
-            })
+    //     AccountService.createAccount(new account("Checking", "Tests", 1000, 100000), custId).then((result) => {
+    //         console.log(result);
+    //         let accountId = result.objectCreated._id;
+    //         DepositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
+    //             console.log(result);
+    //         })
+    //     })
+    // });
+
+    // DepositService.createDeposit("64291bb29683f20dd51877a8", new deposit("balance", "4/3/2023", "completed", 10000.00, "Test data")).then((result) => {
+    //     console.log(result);
+    // })
+
+    const [transactions, setTransactions] = useState([])
+
+    useEffect(()=> {
+        DepositService.getAccountDepositByCustomer("64291bb29683f20dd51877a7").then((result) => {
+            setTransactions(result)
+            console.log(result)
         })
-    });
+    }, [])
 
 
     return (
@@ -607,7 +607,7 @@ export default function Dashboard() {
                                                                         aria-hidden="true"
                                                                     />
                                                                     <p className="truncate text-gray-500 group-hover:text-gray-900">
-                                                                        {transaction.name}
+                                                                        {transaction.description}
                                                                     </p>
                                                                 </a>
                                                             </div>
@@ -629,7 +629,7 @@ export default function Dashboard() {
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
                                                             <time
-                                                                dateTime={transaction.datetime}>{transaction.date}</time>
+                                                                dateTime={transaction.transaction_date}>{transaction.transaction_date}</time>
                                                         </td>
                                                     </tr>
                                                 ))}

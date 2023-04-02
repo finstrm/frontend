@@ -8,15 +8,31 @@ DELETE /deposits/{id}Delete a specific existing deposit
 */
 
 import { baseUrl, key } from "@/Util";
+import { getAccountByCustomer } from "@/service/AccountService";
 
 export async function getDeposit(id) {
     const res = await fetch(baseUrl + `deposits/${id}?key=${key}`)
     return res.json()
 }
 
-export async function getAcountDeposit(id) {
+export async function getAccountDeposit(id) {
     const res = await fetch(baseUrl + `accounts/${id}/deposits?key=${key}`)
     return res.json()
+}
+
+export async function getAccountDepositByCustomer(id) {
+    const accounts = await getAccountByCustomer(id)
+    console.log(accounts, "accounts")
+    let deposits = []
+    for(let account of accounts){
+        await getAccountDeposit(account._id).then((data) => {
+            for(let deposit of data){
+                deposits.push(deposit)
+            }
+        })
+    }
+    console.log(deposits)
+    return deposits
 }
 
 export async function createDeposit(id, deposit) {
