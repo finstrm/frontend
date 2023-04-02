@@ -10,6 +10,14 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import { getFirestore } from "firebase/firestore";
+
+import { app } from '../config/firebaseConfig';
+const db = getFirestore(app);
+
+import { doc, setDoc } from "firebase/firestore"; 
+
+
 import {
   Bars3CenterLeftIcon,
   BellIcon,
@@ -32,6 +40,7 @@ import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -80,6 +89,18 @@ export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
+
+ 
+
+
+    async function upload() {
+      await setDoc(doc(db, "users", "uid"), {
+        customer_id: "ijgfdosijgofisadjgosejfoi",
+      });
+      
+    }
+
+    upload()
 
   return (
    <>
