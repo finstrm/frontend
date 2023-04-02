@@ -5,14 +5,7 @@ import {AccountService} from '@/service/AccountService'
 import {CustomerService} from "@/service/CustomerService";
 import {Address} from "@/model/Address";
 import {Customer} from "@/model/Customer";
-import {initializeApp} from "firebase/app";
-import {getFirestore} from "firebase/firestore";
-import {doc, setDoc} from "firebase/firestore";
-import {onAuthStateChanged} from 'firebase/auth'
 
-import {app} from '../config/firebaseConfig';
-
-const db = getFirestore(app);
 
 
 const navigation = [
@@ -21,20 +14,13 @@ const navigation = [
     {name: 'Company', href: '#'},
 ]
 export default function Home() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     let test = new AccountService()
     let customerService = new CustomerService();
     let addr = new Address("1234", "Test Street", "City", "PA", "12345");
     let cust = new Customer("Jake", "Smith", addr);
 
-    async function upload() {
-        await setDoc(doc(db, "users", "uid"), {
-            customer_id: "asdsa",
-        });
 
-    }
-
-    upload()
 
     customerService.createCustomer(cust).then((e) => {
         test.createAccount("Savings", "test", 0, 100000, e.objectCreated._id).then((data) => {
