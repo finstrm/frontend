@@ -25,31 +25,13 @@ export class AccountService {
         return data;
     }
 
-    async createAccount(type, nickname, rewards, balance, id) {
-        /*
-        /customers/{customer_id}/accounts
-        account-post {
-            type (string): Account type associated with account e.g. savings, checking, etc = ['Credit Card', 'Savings', 'Checking'],
-            nickname (string): Nickname associated with account ,
-            rewards (integer): Reward points associated with account ,
-            balance (integer): Initial account balance ,
-            account_number (string, optional): 16 digit Account Number that is associated with the account e.g. a Credit Card Number
-        }
-        */
-        if(!['Credit Card', 'Savings', 'Checking'].includes(type)) {
-            throw new Error('Invalid account type');
-        }
+    async createAccount(account, id) {
         const response = await fetch(baseUrl + `customers/${id}/accounts?key=${key}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                type: type,
-                nickname: nickname,
-                rewards: rewards,
-                balance: balance,
-            })
+            body: JSON.stringify(account)
         })
         const data = await response.json();
 

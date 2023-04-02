@@ -22,17 +22,17 @@ const navigation = [
 ]
 export default function Home() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    let test = new AccountService()
-    let customerService = new CustomerService();
-    let addr = new Address("1234", "Test Street", "City", "PA", "12345");
-    let cust = new Customer("Jake", "Smith", addr);
+    // let test = new AccountService()
+    // let customerService = new CustomerService();
+    // let addr = new Address("1234", "Test Street", "City", "PA", "12345");
+    // let cust = new Customer("Jake", "Smith", addr);
 
-    async function upload() {
-        await setDoc(doc(db, "users", "uid"), {
-            customer_id: "asdsa",
-        });
+    // async function upload() {
+    //     await setDoc(doc(db, "users", "uid"), {
+    //         customer_id: "asdsa",
+    //     });
 
-    }
+    // }
 
     upload()
 
