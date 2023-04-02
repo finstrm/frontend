@@ -10,6 +10,8 @@ import {
   ScaleIcon,
   ShieldCheckIcon,
   UserGroupIcon,
+  InboxArrowDownIcon,
+
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import {Fragment, useState, useEffect } from 'react'
@@ -25,12 +27,14 @@ import { deposit } from '@/model/Deposit';
 
 import {app} from '@/config/firebaseConfig';
 import {
+  ArrowLeftOnRectangleIcon,
   BanknotesIcon,
   BuildingOfficeIcon,
   CheckCircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   MagnifyingGlassIcon,
+  CheckIcon
 } from '@heroicons/react/20/solid'
 import {getAuth} from "firebase/auth";
 
@@ -39,26 +43,27 @@ const auth = getAuth();
 
 const navigation = [
   {name: 'Home', href: '#', icon: HomeIcon, current: true},
-  {name: 'History', href: '#', icon: ClockIcon, current: false},
-  {name: 'Balances', href: '#', icon: ScaleIcon, current: false},
-  {name: 'Cards', href: '#', icon: CreditCardIcon, current: false},
-  {name: 'Recipients', href: '#', icon: UserGroupIcon, current: false},
-  {name: 'Reports', href: '#', icon: DocumentChartBarIcon, current: false},
+  {name: 'Transactions', href: '#', icon: ScaleIcon, current: false},
+
 ]
 const secondaryNavigation = [
-  {name: 'Settings', href: '#', icon: CogIcon},
-  {name: 'Help', href: '#', icon: QuestionMarkCircleIcon},
-  {name: 'Privacy', href: '#', icon: ShieldCheckIcon},
+  {name: 'Logout', href: './login', icon: ArrowLeftOnRectangleIcon}
+
 ]
 const cards = [
-  {name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45'},
+  { name: 'Company Balance', href: '#', icon: ScaleIcon, amount: '$12,420,000.82' },
+  { name: 'Total Spend', href: '#', icon: CreditCardIcon, amount: '$120,000.82' },
+  { name: 'Total Deposit', href: '#', icon: InboxArrowDownIcon, amount: '$12,540,420.82' },
+
   // More items...
 ]
+
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-gray-100 text-gray-800',
 }
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -68,6 +73,8 @@ function classNames(...classes) {
 export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+
   const [uid, setUID] = useState("");
 
   async function upload(id) {
@@ -117,6 +124,64 @@ export default function Dashboard() {
   return (
       <>
         <div className="min-h-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                <div>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                    <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                  </div>
+                  <div className="mt-3 text-center sm:mt-5">
+                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                      Payment successful
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 sm:mt-6">
+                  <button
+                    type="button"
+                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={() => setOpen(false)}
+                  >
+                    Go back to dashboard
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+
+
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
               <Transition.Child
@@ -220,11 +285,7 @@ export default function Dashboard() {
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex flex-grow flex-col overflow-y-auto bg-blue-700 pb-4 pt-5">
               <div className="flex flex-shrink-0 items-center px-4">
-                <img
-                  className=" mx-auto"
-                  src="../Group.png"
-                  alt="   "
-                />
+                            <h1 className='text-white mx-auto text-3xl'><i class="fas fa-stream"></i> Finstream</h1>
               </div>
               <nav className="mt-5 flex flex-1 flex-col divide-y divide-blue-800 overflow-y-auto" aria-label="Sidebar">
                 <div className="space-y-1 px-2">
@@ -322,6 +383,7 @@ export default function Dashboard() {
                       </div>
                       <div className="mt-6 flex space-x-3 md:ml-4 md:mt-0">
                         <button
+                          onClick={() => {setOpen(true)}} 
                           type="button"
                           className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                         >
