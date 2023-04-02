@@ -1,6 +1,6 @@
 import {baseUrl, key} from "../Util"
 
-export class CustomerService {
+export class customerService {
     async createCustomer(customer) {
         const res = await fetch(baseUrl + `customers?key=${key}`, {
             method: 'POST', headers: {

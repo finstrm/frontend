@@ -10,7 +10,7 @@ DELETE /bills/{billId}Delete a specific existing bill
 
 import {baseUrl, key} from "@/Util";
 
-export class bill {
+export class billService {
     async getAccountBills(id) {
         const response = await fetch(baseUrl + `accounts/${id}/bills?key=${key}`);
         const data = await response.json();

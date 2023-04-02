@@ -7,7 +7,7 @@ PUT /loans/{id}Update a specific existing loan
 DELETE /loans/{id}Delete a specific existing loan
 */
 
-export class loan {
+export class loanService {
     async getLoan(id) {
         const res = await fetch(baseUrl + `loans/${id}?key=${key}`)
         return res.json()

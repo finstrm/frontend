@@ -7,7 +7,7 @@ PUT /transfers/{transferId}Update a specific existing transfer
 DELETE /transfers/{transferId}Delete a specific existing transfer
 */
 
-export class transfer {
+export class transferService {
     async getAccountTransfers(id) {
         const response = await fetch(baseUrl + `accounts/${id}/transfers?key=${key}`);
         const data = await response.json();

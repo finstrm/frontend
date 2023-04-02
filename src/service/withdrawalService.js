@@ -7,7 +7,7 @@ PUT /withdrawals/{id}Update a specific existing withdrawal
 DELETE /withdrawals/{id}Delete a specific existing withdrawal
 */
 
-export class withdrawal {
+export class withdrawalService {
     async getWithdrawal(id) {
         const res = await fetch(baseUrl + `withdrawals/${id}?key=${key}`)
         return res.json()

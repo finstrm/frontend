@@ -6,7 +6,7 @@ POST /merchantsCreate a merchant
 PUT /merchants/{id}Update a specific existing merchant
 */
 
-export class merchant {
+export class merchantService {
     async getMerchant(id) {
         const res = await fetch(baseUrl + `merchants/${id}?key=${key}`)
         return res.json()

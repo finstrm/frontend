@@ -6,7 +6,7 @@ POST /accounts/{id}/depositsCreate a deposit
 PUT /deposits/{id}Update a specific existing deposit
 DELETE /deposits/{id}Delete a specific existing deposit
 */
-export class deposit {
+export class depositService {
     async getDeposit(id) {
         const res = await fetch(baseUrl + `deposits/${id}?key=${key}`)
         return res.json()

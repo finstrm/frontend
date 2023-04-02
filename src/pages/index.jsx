@@ -5,12 +5,15 @@ import {AccountService} from '@/service/AccountService'
 import {CustomerService} from "@/service/CustomerService";
 import {Address} from "@/model/Address";
 import {Customer} from "@/model/Customer";
+import {Account} from "@/model/Account";
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 import {doc, setDoc} from "firebase/firestore";
 import {onAuthStateChanged} from 'firebase/auth'
 
 import {app} from '../config/firebaseConfig';
+import { depositService } from '@/service/depositService';
+import { deposit } from '@/model/Deposit';
 
 const db = getFirestore(app);
 
@@ -22,23 +25,20 @@ const navigation = [
 ]
 export default function Home() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    // let test = new AccountService()
-    // let customerService = new CustomerService();
-    // let addr = new Address("1234", "Test Street", "City", "PA", "12345");
-    // let cust = new Customer("Jake", "Smith", addr);
+    let accountService = new AccountService();
+    let customerService = new CustomerService();
+    let depositService = new depositService();
+    let customer = new Customer("Joe", "Banker", new Address("123 Main St", "12345", "New York", "NY", "15501"));
 
-    // async function upload() {
-    //     await setDoc(doc(db, "users", "uid"), {
-    //         customer_id: "asdsa",
-    //     });
+    customerService.createCustomer(customer).then((result) => {
+        let custId = result.objectCreated._id
 
-    // }
-
-    upload()
-
-    customerService.createCustomer(cust).then((e) => {
-        test.createAccount("Savings", "test", 0, 100000, e.objectCreated._id).then((data) => {
-            console.log(data)
+        accountService.createAccount(new Account("Checking", "Tests", 1000, 100000, custId)).then((result) => {
+            console.log(result);
+            let accountId = result.objectCreated._id;
+            depositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
+                console.log(result);
+            })
         })
     });
 
