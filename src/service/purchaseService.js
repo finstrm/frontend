@@ -8,7 +8,7 @@ POST /accounts/{id}/purchasesCreate a purchase
 PUT /purchases/{id}Update a specific existing purchase
 DELETE /purchases/{id}Delete a specific existing purchase
 */
-
+import { baseUrl, key } from "@/Util";
 export async function getAccountPurchases(id) {
     const response = await fetch(baseUrl + `accounts/${id}/purchases?key=${key}`);
     const data = await response.json();

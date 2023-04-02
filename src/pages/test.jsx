@@ -15,6 +15,13 @@ import {
 import {Fragment, useState} from 'react'
 import {Dialog, Menu, Transition} from '@headlessui/react'
 import {doc, getFirestore, setDoc} from "firebase/firestore";
+import * as AccountService from '@/service/AccountService'
+import * as CustomerService from "@/service/CustomerService";
+import {Address} from "@/model/Address";
+import {Customer} from "@/model/Customer";
+import {account} from "@/model/Account";
+import * as DepositService from '@/service/depositService';
+import { deposit } from '@/model/Deposit';
 
 import {app} from '@/config/firebaseConfig';
 import {
@@ -95,9 +102,9 @@ export default function Dashboard() {
 
     CustomerService.createCustomer(customer).then((result) => {
         let custId = result.objectCreated._id
-        console.log(result.objectCreated._id)
+        console.log(custId, result.objectCreated._id)
 
-        AccountService.createAccount(new account("Checking", "Tests", 1000, 100000, custId)).then((result) => {
+        AccountService.createAccount(new account("Checking", "Tests", 1000, 100000), custId).then((result) => {
             console.log(result);
             let accountId = result.objectCreated._id;
             DepositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
