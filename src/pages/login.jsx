@@ -10,11 +10,48 @@ import { Dialog } from '@headlessui/react'
 import { useState, useEffect } from 'react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
+import { app } from '../config/firebaseConfig';
+
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+
+
 
 
 export default function Home() {
+
+  const auth = getAuth();
+
+
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+
+  function loginAccount() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    // login
+
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    window.location.href = '/dashboard'
+
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+
+    alert(errorMessage)
+  });
+
+
+
+  }
 
   return (
     <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-whiet">
@@ -36,7 +73,7 @@ export default function Home() {
               </a>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <div className="mt-8 space-y-6">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -44,7 +81,7 @@ export default function Home() {
                   Email address
                 </label>
                 <input
-                  id="email-address"
+                  id="email"
                   name="email"
                   type="email"
                   autoComplete="email"
@@ -91,6 +128,7 @@ export default function Home() {
 
             <div>
               <button
+                onClick={loginAccount}
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
@@ -100,7 +138,7 @@ export default function Home() {
                 Sign in
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
   )
