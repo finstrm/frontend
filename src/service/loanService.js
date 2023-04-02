@@ -7,6 +7,8 @@ PUT /loans/{id}Update a specific existing loan
 DELETE /loans/{id}Delete a specific existing loan
 */
 
+import { baseUrl, key } from "@/Util";
+
 
 export async function getLoan(id) {
     const res = await fetch(baseUrl + `loans/${id}?key=${key}`)

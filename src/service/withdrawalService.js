@@ -6,7 +6,7 @@ POST /accounts/{id}/withdrawalsCreate a withdrawal
 PUT /withdrawals/{id}Update a specific existing withdrawal
 DELETE /withdrawals/{id}Delete a specific existing withdrawal
 */
-
+import { baseUrl, key } from "@/Util";
 export async function getWithdrawal(id) {
     const res = await fetch(baseUrl + `withdrawals/${id}?key=${key}`)
     return res.json()

@@ -5,7 +5,7 @@ GET /merchants/{id}Get merchant by id
 POST /merchantsCreate a merchant
 PUT /merchants/{id}Update a specific existing merchant
 */
-
+import { baseUrl, key } from "@/Util";
 export async function getMerchant(id) {
     const res = await fetch(baseUrl + `merchants/${id}?key=${key}`)
     return res.json()

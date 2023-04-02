@@ -1,5 +1,3 @@
-import { Address } from "@/model/Address";
-import { Customer } from "@/model/Customer";
 import { baseUrl, key } from "@/Util";
 
 export async function getAccount(id) {

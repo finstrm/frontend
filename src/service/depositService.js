@@ -7,6 +7,8 @@ PUT /deposits/{id}Update a specific existing deposit
 DELETE /deposits/{id}Delete a specific existing deposit
 */
 
+import { baseUrl, key } from "@/Util";
+
 export async function getDeposit(id) {
     const res = await fetch(baseUrl + `deposits/${id}?key=${key}`)
     return res.json()

@@ -6,7 +6,7 @@ POST /accounts/{id}/transfersCreate a transfer
 PUT /transfers/{transferId}Update a specific existing transfer
 DELETE /transfers/{transferId}Delete a specific existing transfer
 */
-
+import { baseUrl, key } from "@/Util";
 export async function getAccountTransfers(id) {
     const response = await fetch(baseUrl + `accounts/${id}/transfers?key=${key}`);
     const data = await response.json();
