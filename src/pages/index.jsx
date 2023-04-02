@@ -25,7 +25,14 @@ export default function Home() {
     let customerService = new CustomerService();
     let addr = new Address("1234", "Test Street", "City", "PA", "12345");
     let cust = new Customer("Jake", "Smith", addr);
-     customerService.createCustomer(cust).then((e)=>console.log(e))
+
+    customerService.createCustomer(cust).then((e)=> {
+        test.createAccount("Savings", "test", 0, 100000, e.objectCreated._id).then((data)=> {
+            console.log(data)
+        })
+    });
+
+   
 
     return (
         <div className="bg-white">
