@@ -1,18 +1,15 @@
-import Head from 'next/head'
-import {Header} from '@/components/Header'
-import {Hero} from '@/components/home/Hero'
-import {Footer} from '@/components/Footer'
-import {FeaturesPanel} from '@/components/home/FeaturePanel'
-import {Stats} from '@/components/home/Stats'
-import {LearningPanel} from '@/components/home/LearningPanel'
-import {Enterprise} from '@/components/home/Enterprise'
 import {Dialog} from '@headlessui/react'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {AccountService} from '@/service/AccountService'
 import {CustomerService} from "@/service/CustomerService";
 import {Address} from "@/model/Address";
 import {Customer} from "@/model/Customer";
+const firebase = require("firebase");
+require("firebase/firestore");
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const navigation = [
     {name: 'Security', href: '#'},
@@ -25,7 +22,20 @@ export default function Home() {
     let customerService = new CustomerService();
     let addr = new Address("1234", "Test Street", "City", "PA", "12345");
     let cust = new Customer("Jake", "Smith", addr);
-     customerService.createCustomer(cust).then((e)=>console.log(e))
+    customerService.createCustomer(cust).then((e) => console.log(e.objectCreated._id))
+
+    try {
+        const docRef =  addDoc(collection(db, "users"), {
+            first: "Ada",
+            last: "Lovelace",
+            born: 1815
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+
+
 
     return (
         <div className="bg-white">

@@ -10,7 +10,8 @@ export class CustomerService {
         return res.json()
     }
 
-    async getCustomer(customer) {
-
+    async getCustomer(id) {
+        const res = await fetch(baseUrl + `customers/${id}?key=${key}`)
+        return res.json()
     }
 }
