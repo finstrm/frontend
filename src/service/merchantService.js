@@ -6,32 +6,30 @@ POST /merchantsCreate a merchant
 PUT /merchants/{id}Update a specific existing merchant
 */
 
-export class merchantService {
-    async getMerchant(id) {
-        const res = await fetch(baseUrl + `merchants/${id}?key=${key}`)
-        return res.json()
-    }
+export async function getMerchant(id) {
+    const res = await fetch(baseUrl + `merchants/${id}?key=${key}`)
+    return res.json()
+}
 
-    async getMerchants() {
-        const res = await fetch(baseUrl + `merchants?key=${key}`)
-        return res.json()
-    }
+export async function getMerchants() {
+    const res = await fetch(baseUrl + `merchants?key=${key}`)
+    return res.json()
+}
 
-    async createMerchant(merchant) {
-        const res = await fetch(baseUrl + `merchants?key=${key}`, {
-            method: 'POST', headers: {
-                'Accept': 'application/json', 'Content-Type': 'application/json'
-            }, body: JSON.stringify(merchant)
-        })
-        return res.json()
-    }
+export async function createMerchant(merchant) {
+    const res = await fetch(baseUrl + `merchants?key=${key}`, {
+        method: 'POST', headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json'
+        }, body: JSON.stringify(merchant)
+    })
+    return res.json()
+}
 
-    async updateMerchant(id, merchant) {
-        const res = await fetch(baseUrl + `merchants/${id}?key=${key}`, {
-            method: 'PUT', headers: {
-                'Accept': 'application/json', 'Content-Type': 'application/json'
-            }, body: JSON.stringify(merchant)
-        })
-        return res.json()
-    }
+export async function updateMerchant(id, merchant) {
+    const res = await fetch(baseUrl + `merchants/${id}?key=${key}`, {
+        method: 'PUT', headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json'
+        }, body: JSON.stringify(merchant)
+    })
+    return res.json()
 }

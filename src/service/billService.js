@@ -8,53 +8,52 @@ PUT /bills/{billId}Update a specific existing bill
 DELETE /bills/{billId}Delete a specific existing bill
 */
 
-import {baseUrl, key} from "@/Util";
+import { baseUrl, key } from "@/Util";
 
-export class billService {
-    async getAccountBills(id) {
-        const response = await fetch(baseUrl + `accounts/${id}/bills?key=${key}`);
-        const data = await response.json();
 
-        return data;
-    }
+export async function getAccountBills(id) {
+    const response = await fetch(baseUrl + `accounts/${id}/bills?key=${key}`);
+    const data = await response.json();
 
-    async getBill(id) {
-        const response = await fetch(baseUrl + `bills/${id}?key=${key}`);
-        const data = await response.json();
+    return data;
+}
 
-        return data;
-    }
+export async function getBill(id) {
+    const response = await fetch(baseUrl + `bills/${id}?key=${key}`);
+    const data = await response.json();
 
-    async getCustomerBills(id) {
-        const response = await fetch(baseUrl + `customers/${id}/bills?key=${key}`);
-        const data = await response.json();
+    return data;
+}
 
-        return data;
-    }
+export async function getCustomerBills(id) {
+    const response = await fetch(baseUrl + `customers/${id}/bills?key=${key}`);
+    const data = await response.json();
 
-    async createBill(accountId, bill) {
-        const response = await fetch(baseUrl + `accounts/${accountId}/bills?key=${key}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bill)
-        })
-        const data = await response.json();
+    return data;
+}
 
-        return data;
-    }
+export async function createBill(accountId, bill) {
+    const response = await fetch(baseUrl + `accounts/${accountId}/bills?key=${key}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bill)
+    })
+    const data = await response.json();
 
-    async updateBill(id, bill) {
-        const response = await fetch(baseUrl + `bills/${id}?key=${key}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bill)
-        })
-        const data = await response.json();
+    return data;
+}
 
-        return data;
-    }
+export async function updateBill(id, bill) {
+    const response = await fetch(baseUrl + `bills/${id}?key=${key}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bill)
+    })
+    const data = await response.json();
+
+    return data;
 }
