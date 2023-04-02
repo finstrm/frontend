@@ -1,9 +1,13 @@
-const key = "575fbd2b0728ae7c870640023404c388";
-const baseUrl = "http://api.nessieisreal.com/";
+import {Address} from "@/model/Address";
+import {Customer} from "@/model/Customer";
+import {baseUrl, key} from "@/Util";
 
-export class AccountService{
-  async getAccount(id){
-    const response = await fetch(baseUrl+"accounts/${id}?key=${key}")
-    return response;
-  }
+export class AccountService {
+    async getAccount(id) {
+
+        const response = await fetch(baseUrl + `accounts/${id}?key=${key}`);
+        const data = await response.json();
+
+        return data;
+    }
 }
