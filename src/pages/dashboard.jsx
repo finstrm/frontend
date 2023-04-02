@@ -188,7 +188,7 @@ export default function Dashboard() {
           <div className="flex flex-grow flex-col overflow-y-auto bg-blue-700 pb-4 pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
               <img
-                className="h-8 w-auto"
+                className="h-8 w-auto mx-auto"
                 src="./Group.png"
                 alt="   "
               />
