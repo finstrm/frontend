@@ -25,20 +25,6 @@ const navigation = [
 ]
 export default function Home() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    let customer = new Customer("Joe", "Banker", new Address("123 Main St", "12345", "New York", "NY", "15501"));
-
-    CustomerService.createCustomer(customer).then((result) => {
-        let custId = result.objectCreated._id
-        console.log(result.objectCreated._id)
-
-        AccountService.createAccount(new account("Checking", "Tests", 1000, 100000, custId)).then((result) => {
-            console.log(result);
-            let accountId = result.objectCreated._id;
-            DepositService.createDeposit(accountId, new deposit("balance", "4/2/2023", "completed", 10000.00, "Test data")).then((result) => {
-                console.log(result);
-            })
-        })
-    });
 
 
     return (
